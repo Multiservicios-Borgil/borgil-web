@@ -51,10 +51,32 @@
 <div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] hidden lg:hidden"></div>
 
 <!-- Main Content -->
-<main class="lg:ml-72 min-h-screen">
-    
+    <!-- Barra de Contacto Superior (Z-50 superior a todo el main) -->
+    <div class="fixed top-0 left-0 lg:left-72 right-0 bg-[#1a1b2e] text-white z-[50] py-2.5 px-8 flex flex-wrap justify-center lg:justify-between items-center gap-4 border-b border-white/5">
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">location_on</span>
+                <span class="text-[9px] font-black uppercase tracking-widest text-white/70 italic">Illueca (ZGZ)</span>
+            </div>
+            <div class="hidden md:flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary text-sm">mail</span>
+                <span class="text-[9px] font-black uppercase tracking-widest text-white/70">infoborgil@gmail.com</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="tel:976822343" class="flex items-center gap-2 hover:text-primary transition-colors">
+                <span class="material-symbols-outlined text-primary text-sm">phone</span>
+                <span class="text-[10px] font-black uppercase tracking-tighter">976 82 23 43</span>
+            </a>
+            <a href="https://wa.me/34623150111" class="flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full border border-primary/20 hover:bg-primary/20 transition-all">
+                <span class="material-symbols-outlined text-primary text-sm">smartphone</span>
+                <span class="text-[10px] font-black italic text-primary uppercase tracking-tighter">623 150 111</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Hero SAT -->
-    <section class="hero-gradient text-white pt-24 pb-32 px-8 lg:px-16 relative">
+    <section class="hero-gradient text-white pt-24 lg:pt-32 pb-32 px-8 lg:px-16 relative">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16 relative z-10">
             <div class="flex-1 fade-up">
                 <span class="inline-block bg-primary px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-6">Compromiso Borgil</span>
