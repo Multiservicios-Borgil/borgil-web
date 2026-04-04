@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Guía de Gestión | Multiservicios BORGIL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Manrope', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .step-number { background-color: #0052FF; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; }
+    </style>
+</head>
+<body class="p-4 md:p-12">
+
+<div class="max-w-4xl mx-auto bg-white rounded-[40px] shadow-2xl p-8 md:p-16 border border-gray-100">
+    
+    <header class="text-center mb-16">
+        <div class="inline-flex items-center gap-3 mb-6">
+            <span class="material-symbols-outlined text-4xl text-blue-600">settings_suggest</span>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tighter uppercase italic">Manual de <span class="text-blue-600 not-italic">Gestión Web</span></h1>
+        </div>
+        <p class="text-slate-500 font-medium text-lg leading-relaxed">Guía paso a paso para actualizar productos y precios desde cualquier ordenador de la empresa.</p>
+    </header>
+
+    <div class="space-y-16">
+        <!-- Paso 1 -->
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="flex-shrink-0"><div class="step-number">1</div></div>
+            <div class="flex-1">
+                <h2 class="text-2xl font-black mb-4 flex items-center gap-2">Acceso al Panel <span class="material-symbols-outlined text-blue-600">login</span></h2>
+                <p class="mb-4 font-medium text-slate-600">Desde cualquier PC, abre el navegador y escribe la dirección de gestión:</p>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-dashed border-slate-200 font-bold text-blue-600 break-all select-all">
+                    multiserviciosborgil.com/admin.html
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="flex-shrink-0"><div class="step-number">2</div></div>
+            <div class="flex-1">
+                <h2 class="text-2xl font-black mb-4 flex items-center gap-2">La Llave de Fotos <span class="material-symbols-outlined text-blue-600">key</span></h2>
+                <p class="mb-4 font-medium text-slate-600">Cada vez que uses un **ordenador nuevo**, el panel te pedirá tu "API Key" de ImgBB para poder subir fotos. Tenla siempre a mano.</p>
+                <div class="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-r-2xl">
+                    <p class="text-sm font-bold text-amber-800 italic">"Es el código de números y letras que generamos al principio del proyecto."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="flex-shrink-0"><div class="step-number">3</div></div>
+            <div class="flex-1">
+                <h2 class="text-2xl font-black mb-4 flex items-center gap-2">Gestión de Productos <span class="material-symbols-outlined text-blue-600">inventory_2</span></h2>
+                <ul class="list-disc list-inside space-y-3 font-medium text-slate-600">
+                    <li>Rellena los datos (Marca, Modelo, Precio, etc.).</li>
+                    <li>Sube la foto del equipo (el sistema la recortará automáticamente).</li>
+                    <li>Pulsa en <strong class="text-blue-600">"Añadir Producto"</strong>.</li>
+                    <li>Cuando termines todos los cambios, pulsa el botón naranja <strong class="text-orange-500">"Descargar base de datos actualizada"</strong>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="flex flex-col md:flex-row gap-8">
+            <div class="flex-shrink-0"><div class="step-number">4</div></div>
+            <div class="flex-1">
+                <h2 class="text-2xl font-black mb-4 flex items-center gap-2">Lanzar Cambios a la Web <span class="material-symbols-outlined text-blue-600">publish</span></h2>
+                <p class="mb-6 font-medium text-slate-600">Como no usamos base de datos de pago, tenemos que subir el archivo descargado manualmente a GitHub:</p>
+                <div class="bg-slate-900 text-slate-300 p-8 rounded-3xl space-y-4 shadow-xl">
+                    <p class="flex items-start gap-4"><span class="text-blue-400 font-bold">1.</span> Entra en tu cuenta de <a href="https://github.com/Multiservicios-Borgil/borgil-web" target="_blank" class="text-white underline font-black">GitHub</a>.</p>
+                    <p class="flex items-start gap-4"><span class="text-blue-400 font-bold">2.</span> Pulsa en <span class="text-white font-bold">"Add file"</span> y luego en <span class="text-white font-bold">"Upload files"</span>.</p>
+                    <p class="flex items-start gap-4"><span class="text-blue-400 font-bold">3.</span> Arrastra el archivo <code class="bg-white/10 px-2 py-0.5 rounded text-blue-300">productos_db.js</code> que has descargado.</p>
+                    <p class="flex items-start gap-4"><span class="text-blue-400 font-bold">4.</span> Pulsa abajo en el botón verde <span class="bg-green-600 text-white px-2 py-0.5 rounded text-[10px] font-black uppercase">Commit Changes</span>.</p>
+                </div>
+                <p class="mt-6 text-sm italic font-bold text-slate-400 leading-relaxed text-center">¡Listo! En 1 minuto se actualizarán todos los ordenadores y móviles que visiten la web.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-24 pt-8 border-t border-slate-100 text-center">
+        <p class="text-slate-400 text-xs font-bold uppercase tracking-widest leading-loose">Diseñado para BORGIL · Sistema Zero Cost · 2026</p>
+        <button onclick="window.print()" class="mt-8 bg-slate-100 text-slate-500 px-8 py-3 rounded-xl font-bold hover:bg-slate-200 transition-all flex items-center gap-2 mx-auto">
+            <span class="material-symbols-outlined text-sm">print</span> Imprimir Guía
+        </button>
+    </footer>
+
+</div>
+
+</body>
+</html>
