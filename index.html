@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class="scroll-smooth light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta name="description" content="MULTISERVICIOS BORGIL - Venta y reparación oficial de electrodomésticos en la Comarca del Aranda y Calatayud.">
+    <title>MULTISERVICIOS BORGIL | multiserviciosborgil.com</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Public_Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: { "primary": "#0052FF", "secondary": "#2a2b51", "surface": "#f8f5ff" },
+                fontFamily: { "headline": ["Manrope", "sans-serif"], "body": ["Manrope", "sans-serif"] },
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .zoom-container { overflow: hidden; position: relative; }
+        .zoom-img { transition: transform 0.3s ease-out; }
+        .zoom-container:hover .zoom-img { transform: scale(1.5); cursor: zoom-in; }
+    </style>
+</head>
+<body class="bg-surface font-body text-[#1a1b2e]">
+
+<!-- Sidebar -->
+<aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-[#2a2b51] text-white z-[60] transform -translate-x-full lg:translate-x-0 transition-transform duration-500 shadow-2xl flex flex-col font-medium">
+    <div class="p-8 border-b border-white/5 bg-black/10">
+        <div class="flex items-center gap-3 mb-2" onclick="location.href='index.html'" style="cursor:pointer">
+            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm text-[20px]">home_repair_service</span></div>
+            <div class="text-xl font-black uppercase text-white leading-none">BORGIL</div>
+        </div>
+        <div class="text-[10px] font-bold text-white/40 uppercase tracking-[0.3em]">Multiservicios</div>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-8">
+        <a href="index.html" class="flex items-center gap-4 px-8 py-3 bg-white/10 text-white font-bold transition-all"><span class="material-symbols-outlined">home</span> Inicio</a>
+        <a href="servicio-tecnico.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">build</span> Servicio Técnico</a>
+        
+        <div class="px-8 mt-12 mb-4 text-[11px] font-bold uppercase tracking-widest text-primary/80">Venta de Equipos</div>
+        <a href="lavado.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">kitchen</span> Lavadoras</a>
+        <a href="frio.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">ac_unit</span> Frío</a>
+        <a href="coccion.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">oven_gen</span> Cocción</a>
+        <a href="lavavajillas.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">dishwasher</span> Lavavajillas</a>
+    </nav>
+</aside>
+
+<div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] hidden lg:hidden"></div>
+
+<main class="lg:ml-72 pb-24">
+    <!-- Hero -->
+    <section class="relative pt-12 lg:pt-24 pb-24 px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="flex-1 z-10">
+                <span class="inline-block text-primary bg-primary/10 px-4 py-1.5 rounded-full text-xs font-black uppercase mb-6 tracking-widest">multiserviciosborgil.com</span>
+                <h1 class="font-headline text-5xl md:text-7xl font-extrabold text-secondary leading-tight tracking-tighter mb-8 italic">Calidad y <span class="text-primary not-italic">Ahorro Inteligente</span></h1>
+                <p class="text-lg text-secondary/60 max-w-lg mb-10 leading-relaxed font-medium">Servicio Técnico Oficial de varias marcas y venta de electrodomésticos con garantía legal total en la Comarca del Aranda y Calatayud.</p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#catalogo" class="bg-[#2a2b51] text-white px-8 py-4 rounded-xl font-bold hover:bg-black transition-all shadow-xl">Ver Catálogo</a>
+                    <a href="servicio-tecnico.html" class="bg-primary text-white px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-all shadow-xl shadow-primary/20 flex items-center gap-2 font-headline uppercase text-xs tracking-widest">🛠️ Servicio Técnico</a>
+                </div>
+            </div>
+            <div class="flex-1 relative">
+                <img class="rounded-3xl shadow-2xl w-full aspect-[4/3] object-cover border-4 border-white" src="hero.png" alt="Borgil">
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo Central -->
+    <section id="catalogo" class="py-24 px-8 bg-gray-50 border-y border-gray-100">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+                <div>
+                    <h2 class="font-headline text-4xl lg:text-5xl font-black text-secondary tracking-tight mb-2">Encuentra tu Equipo</h2>
+                    <p class="text-secondary/50 font-medium">Seleccionamos las mejores unidades con garantía técnica oficial.</p>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <a href="lavado.html" class="flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-gray-100 hover:border-primary hover:shadow-xl transition-all group">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">kitchen</span>
+                    <span class="font-black text-secondary uppercase text-[10px] tracking-widest">Lavadoras</span>
+                </a>
+                <a href="frio.html" class="flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-gray-100 hover:border-primary hover:shadow-xl transition-all group">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">ac_unit</span>
+                    <span class="font-black text-secondary uppercase text-[10px] tracking-widest">Frío</span>
+                </a>
+                <a href="coccion.html" class="flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-gray-100 hover:border-primary hover:shadow-xl transition-all group">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">oven_gen</span>
+                    <span class="font-black text-secondary uppercase text-[10px] tracking-widest">Cocción</span>
+                </a>
+                <a href="lavavajillas.html" class="flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-gray-100 hover:border-primary hover:shadow-xl transition-all group">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">dishwasher</span>
+                    <span class="font-black text-secondary uppercase text-[10px] tracking-widest">Lavavajillas</span>
+                </a>
+                <a href="secadoras.html" class="flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-gray-100 hover:border-primary hover:shadow-xl transition-all group">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">waves</span>
+                    <span class="font-black text-secondary uppercase text-[10px] tracking-widest">Secadoras</span>
+                </a>
+                <a href="lavasecadoras.html" class="flex flex-col items-center justify-center p-8 bg-white rounded-3xl border border-gray-100 hover:border-primary hover:shadow-xl transition-all group">
+                    <span class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">local_laundry_service</span>
+                    <span class="font-black text-secondary uppercase text-[10px] tracking-widest">Lavasecado</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nueva Sección SAT en Portada -->
+    <section class="py-24 px-8 lg:px-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-secondary rounded-[60px] p-12 lg:p-24 text-white relative flex flex-col lg:flex-row items-center gap-16">
+                <!-- Sello de Garantía -->
+                <div class="absolute -top-12 -right-12 w-48 h-48 bg-primary rounded-full border-[10px] border-surface flex flex-col items-center justify-center transform rotate-12 shadow-2xl">
+                    <span class="text-[10px] font-black uppercase text-white/60 mb-1">Garantía</span>
+                    <span class="text-3xl font-black">LEGAL</span>
+                    <span class="text-[10px] font-black uppercase text-white/60 mt-1">Total</span>
+                </div>
+
+                <div class="flex-1">
+                    <h2 class="text-4xl lg:text-6xl font-black tracking-tightest mb-8 leading-tight italic">Confianza <span class="text-primary not-italic">Técnica Profesional</span></h2>
+                    <p class="text-white/50 text-lg font-medium leading-relaxed mb-12">Somos Servicio Técnico Oficial de varias marcas. Todas nuestras reparaciones incluyen garantía certificada de 3 meses en mano de obra y 3 años en piezas originales.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12">
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary text-3xl">task_alt</span>
+                            <span class="font-bold text-sm">3 Meses sobre Reparación</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="material-symbols-outlined text-primary text-3xl">task_alt</span>
+                            <span class="font-bold text-sm">3 Años sobre Repuestos</span>
+                        </div>
+                    </div>
+                    
+                    <a href="servicio-tecnico.html" class="inline-block bg-white text-secondary px-12 py-6 rounded-3xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-all text-xs uppercase tracking-widest">
+                        Saber más sobre el servicio técnico
+                    </a>
+                </div>
+                <div class="flex-1 relative">
+                    <img src="https://images.unsplash.com/photo-1549216711-1952e01df494?q=80&w=2070&auto=format&fit=crop" class="rounded-[40px] shadow-2xl w-full aspect-[4/3] object-cover border border-white/5 grayscale hover:grayscale-0 transition-all duration-700" alt="SAT Oficial">
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("-translate-x-full");
+        document.getElementById("overlay").classList.toggle("hidden");
+    }
+</script>
+</body>
+</html>

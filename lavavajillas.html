@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html class="scroll-smooth light" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Lavavajillas | MULTISERVICIOS BORGIL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+          tailwind.config = {
+            theme: {
+              extend: {
+                colors: { "primary": "#0052FF", "secondary": "#2a2b51", "surface": "#f8f5ff" },
+                fontFamily: { "headline": ["Manrope", "sans-serif"], "body": ["Manrope", "sans-serif"] },
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .zoom-container { overflow: hidden; position: relative; }
+        .zoom-img { transition: transform 0.3s ease-out; }
+        .zoom-container:hover .zoom-img { transform: scale(1.5); cursor: zoom-in; }
+    </style>
+</head>
+<body class="bg-surface font-body text-secondary">
+
+<aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-[#2a2b51] text-white z-[60] transform -translate-x-full lg:translate-x-0 transition-transform duration-500 shadow-2xl flex flex-col">
+    <div class="p-8 border-b border-white/5 bg-black/10">
+        <div class="flex items-center gap-3 mb-2" onclick="location.href='index.html'" style="cursor:pointer">
+            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"><span class="material-symbols-outlined text-white text-sm">home_repair_service</span></div>
+            <div class="text-xl font-black uppercase tracking-tighter text-white leading-none">BORGIL</div>
+        </div>
+    </div>
+    <nav class="flex-1 overflow-y-auto py-8 text-sm">
+        <a href="index.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">home</span> Inicio</a>
+        <a href="servicio-tecnico.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all text-white/80"><span class="material-symbols-outlined">build</span> Servicio Técnico</a>
+        
+        <div class="px-8 mt-12 mb-4 text-[11px] font-bold uppercase tracking-widest text-primary/80">Venta de Equipos</div>
+        <a href="lavado.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all font-medium text-white/80"><span class="material-symbols-outlined">kitchen</span> Lavadoras</a>
+        <a href="secadoras.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all font-medium text-white/80"><span class="material-symbols-outlined">waves</span> Secadoras</a>
+        <a href="lavasecadoras.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all font-medium text-white/80"><span class="material-symbols-outlined">local_laundry_service</span> Lavasecadoras</a>
+        <a href="frio.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all font-medium text-white/80"><span class="material-symbols-outlined">ac_unit</span> Frío</a>
+        <a href="coccion.html" class="flex items-center gap-4 px-8 py-3 hover:bg-white/5 transition-all font-medium text-white/80"><span class="material-symbols-outlined">oven_gen</span> Cocción</a>
+        <a href="lavavajillas.html" class="flex items-center gap-4 px-8 py-3 bg-primary/10 text-primary font-bold border-r-4 border-primary transition-all font-medium"><span class="material-symbols-outlined">dishwasher</span> Lavavajillas</a>
+    </nav>
+</aside>
+
+<div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] hidden lg:hidden"></div>
+
+<main class="lg:ml-72 pt-32 lg:pt-24 pb-24 px-8 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-16">
+            <span class="text-primary font-black text-xs uppercase tracking-widest mb-2 block">Limpieza Total</span>
+            <h1 class="font-headline text-5xl md:text-6xl font-black tracking-tighter text-secondary mb-6 uppercase leading-tight">LAVAVAJILLAS <br><span class="text-primary italic">EFICIENTES</span></h1>
+            <p class="text-secondary/60 text-lg font-medium max-w-2xl leading-relaxed">Olvídate de fregar. Equipos silenciosos y de bajo consumo con garantía técnica total.</p>
+        </header>
+
+        <div id="contenedor-productos" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            <!-- Cargado por JS -->
+        </div>
+    </div>
+</main>
+
+<script src="productos_db.js"></script>
+
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("-translate-x-full");
+        document.getElementById("overlay").classList.toggle("hidden");
+    }
+
+    function cargar() {
+        const contenedor = document.getElementById("contenedor-productos");
+        const productos = window.PRODUCTOS_BORGIL || [];
+        const filtrados = productos.filter(p => p.familia === 'Lavavajillas');
+
+        if (filtrados.length === 0) {
+            contenedor.innerHTML = `<div class="col-span-full p-12 text-center border-2 border-dashed border-gray-200 rounded-3xl text-gray-400 font-bold">Próximamente más productos en Lavavajillas.</div>`;
+            return;
+        }
+
+        contenedor.innerHTML = "";
+        filtrados.forEach(prod => {
+            contenedor.insertAdjacentHTML("beforeend", `
+                <div class="group bg-white rounded-3xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 flex flex-col fade-in">
+                    <div class="aspect-square relative zoom-container overflow-hidden bg-gray-50 flex justify-center items-center">
+                        <img src="${prod.imagen}" class="w-full h-full object-cover zoom-img">
+                        <div class="absolute top-4 left-4 bg-primary text-white px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest z-20">${prod.estado}</div>
+                    </div>
+                    <div class="p-8 flex flex-col flex-grow">
+                        <h3 class="font-black text-2xl text-secondary mb-3 group-hover:text-primary transition-colors leading-tight">${prod.titulo}</h3>
+                        <p class="text-secondary/50 text-sm mb-8 line-clamp-2">${prod.descripcion}</p>
+                        <div class="mt-auto flex justify-between items-end border-t border-gray-100 pt-6">
+                            <div class="flex flex-col">
+                                ${prod.precio_original ? `<span class="text-xs text-secondary/30 font-bold line-through ml-1">${prod.precio_original}</span>` : ''}
+                                <span class="text-3xl font-black text-primary leading-none">${prod.precio_oferta}</span>
+                            </div>
+                            <a href="https://wa.me/34623150111?text=Me%20interesa:%20${encodeURIComponent(prod.titulo)}" class="bg-primary text-white p-3 rounded-2xl shadow-lg transition-transform hover:scale-110 active:scale-95"><span class="material-symbols-outlined">chat</span></a>
+                        </div>
+                    </div>
+                </div>
+            `);
+        });
+    }
+
+    cargar();
+</script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Panel Local Borgil | Gestión Sin Costes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300; }
+        .file-input-wrapper { border: 2px dashed #e5e7eb; transition: all 0.3s; }
+        .file-input-wrapper:hover { border-color: #0052FF; background: #f0f7ff; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-900">
+
+    <header class="bg-[#2a2b51] text-white py-6 shadow-xl">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="flex items-center gap-3 hover:text-blue-400 transition-colors">
+                    <span class="material-symbols-outlined">home</span>
+                    <span class="text-xs font-bold uppercase tracking-widest">Inicio</span>
+                </a>
+                <a href="servicio-tecnico.html" class="flex items-center gap-3 hover:text-blue-400 transition-colors">
+                    <span class="material-symbols-outlined">build</span>
+                    <span class="text-xs font-bold uppercase tracking-widest">Servicio Técnico</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-6">
+                <div class="text-right">
+                    <p class="text-[10px] font-black text-blue-400 uppercase">Estado del Sistema</p>
+                    <p id="system-status" class="text-xs font-bold text-green-400 flex items-center justify-end gap-1"><span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> Listo para gestionar</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- COLUMNA IZQUIERDA: CONFIG Y SUBIDA -->
+        <aside class="lg:col-span-1 space-y-6">
+            <!-- 1. Configuración de API Key -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <h3 class="text-sm font-black text-blue-600 uppercase mb-4 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-lg">key</span> Configuración ImgBB
+                </h3>
+                <p class="text-xs font-medium text-gray-400 mb-4 leading-relaxed">Necesitamos una clave de ImgBB para subir las fotos gratis. Consíguela en <a href="https://api.imgbb.com/" target="_blank" class="text-blue-600 underline">api.imgbb.com</a></p>
+                <input type="password" id="imgbb-key" placeholder="Pega tu API KEY aquí" class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-blue-500 outline-none">
+                <p class="text-[10px] mt-2 text-gray-300">Se guardará solo en este navegador.</p>
+            </div>
+
+            <!-- 2. Formulario de Producto -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                <h2 class="text-xl font-black mb-6 flex items-center gap-2 text-gray-800">
+                    <span class="material-symbols-outlined text-blue-600">add_circle</span> Añadir Equipo
+                </h2>
+                <form id="product-form" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <select id="familia" class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <option value="Lavado">Lavado</option>
+                            <option value="Secadora">Secadora</option>
+                            <option value="Lavasecadora">Lavasecadora</option>
+                            <option value="Frio">Frío</option>
+                            <option value="Coccion">Cocción</option>
+                            <option value="Lavavajillas">Lavavajillas</option>
+                        </select>
+                        <select id="estado" class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500" required>
+                            <option value="Nuevo">Nuevo</option>
+                            <option value="Nuevo con tara estética">Nuevo con tara</option>
+                            <option value="Reacondicionado">Reacondicionado</option>
+                            <option value="Segunda mano">Segunda mano</option>
+                        </select>
+                    </div>
+                    <input type="text" id="titulo" placeholder="Modelo (Ej: Bosch Serie 4)" class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold" required>
+                    <textarea id="descripcion" placeholder="Características..." class="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold" rows="2" required></textarea>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="precio_original" placeholder="Precio Antes" class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold">
+                        <input type="text" id="precio_oferta" placeholder="Precio HOY" class="bg-blue-50 border border-blue-100 text-blue-600 rounded-xl px-4 py-3 text-sm font-black" required>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block ml-1">Fotos (Subirán a ImgBB)</label>
+                        <input type="file" id="foto1" accept="image/*" class="w-full text-xs" required>
+                        <input type="file" id="foto2" accept="image/*" class="w-full text-xs">
+                        <input type="file" id="foto3" accept="image/*" class="w-full text-xs">
+                    </div>
+
+                    <button type="submit" id="submit-btn" class="w-full bg-[#2a2b51] text-white font-black py-4 rounded-2xl hover:bg-black transition-all shadow-xl mt-4 flex items-center justify-center gap-2 active:scale-95">
+                        <span class="material-symbols-outlined">publish</span> PUBLICAR PRODUCTO
+                    </button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- COLUMNA DERECHA: BASE DE DATOS Y ENLACES -->
+        <div class="lg:col-span-2 space-y-6">
+            
+            <div class="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-200">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-2xl font-black tracking-tighter">Tu Base de Datos Local</h2>
+                        <p class="text-blue-100/60 font-bold text-sm">Gestiona el archivo productos_db.js directamente</p>
+                    </div>
+                    <button onclick="descargarJSON()" class="bg-white text-blue-600 px-6 py-3 rounded-xl font-black text-xs hover:bg-gray-100 transition-all flex items-center gap-2 shadow-lg">
+                        <span class="material-symbols-outlined text-sm">download</span> DESCARGAR ACTUALIZACIÓN
+                    </button>
+                </div>
+                
+                <div class="bg-black/20 rounded-2xl p-6 border border-white/10">
+                    <p class="text-[10px] font-black text-blue-200 uppercase mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">terminal</span> Previsualización del archivo productos_db.js
+                    </p>
+                    <div id="json-viewer" class="text-[11px] font-mono whitespace-pre overflow-auto max-h-[400px] text-blue-50/80 custom-scrollbar">
+                        // Tu lista de productos aparecerá aquí...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Listado para borrar -->
+            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-8 py-6 border-b border-gray-50 flex justify-between items-center">
+                    <h3 class="font-black text-gray-800">Equipos en el Sistema</h3>
+                    <span id="contador" class="text-xs font-black bg-gray-100 px-3 py-1 rounded-full text-gray-500">0 Items</span>
+                </div>
+                <div id="lista-productos" class="divide-y divide-gray-50">
+                    <!-- JS rellena esto -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // CARGAR BASE DE DATOS ACTUAL
+        // Nota: Como es JS estático, no podemos importar directamente con fetch local (CORS).
+        // Le pediremos al usuario que cargue el archivo inicial o usaremos el del repo si lo pegamos.
+        let productos = [];
+
+        // Inicializamos cargando del localStorage si existiera algo
+        const guardado = localStorage.getItem('borgil_db');
+        if (guardado) {
+            productos = JSON.parse(guardado);
+            renderizarLista();
+        } else {
+            // Intentamos cargar los que vienen en productos_db.js mediante una pequeña trampa:
+            // Creamos un script dinámico o simplemente esperamos a que el usuario empiece.
+            // Para el primer uso, inicializo con los de ejemplo si quieres.
+            productos = [
+                {
+                    "id": 1695420000001,
+                    "familia": "Lavado",
+                    "estado": "Nuevo",
+                    "titulo": "Lavadora Bosch Serie 6",
+                    "descripcion": "Ejemplo de carga inicial.",
+                    "precio_original": "599€",
+                    "precio_oferta": "449€",
+                    "imagen": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=1000&auto=format&fit=crop"
+                }
+            ];
+            renderizarLista();
+        }
+
+        // Recuperar API KEY
+        const savedKey = localStorage.getItem('imgbb_key');
+        if (savedKey) document.getElementById('imgbb-key').value = savedKey;
+
+        document.getElementById('imgbb-key').addEventListener('input', (e) => {
+            localStorage.setItem('imgbb_key', e.target.value);
+        });
+
+        async function uploadToImgBB(file) {
+            if (!file) return null;
+            const key = document.getElementById('imgbb-key').value;
+            if (!key) throw new Error("Falta la API KEY de ImgBB");
+
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            const response = await fetch(`https://api.imgbb.com/1/upload?key=${key}`, {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+                return data.data.url;
+            } else {
+                throw new Error("Error en ImgBB: " + data.error.message);
+            }
+        }
+
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> SUBIENDO FOTOS...';
+
+            try {
+                const u1 = await uploadToImgBB(document.getElementById('foto1').files[0]);
+                const u2 = await uploadToImgBB(document.getElementById('foto2').files[0]);
+                const u3 = await uploadToImgBB(document.getElementById('foto3').files[0]);
+
+                const nuevo = {
+                    id: Date.now(),
+                    familia: document.getElementById('familia').value,
+                    estado: document.getElementById('estado').value,
+                    titulo: document.getElementById('titulo').value,
+                    descripcion: document.getElementById('descripcion').value,
+                    precio_original: document.getElementById('precio_original').value,
+                    precio_oferta: document.getElementById('precio_oferta').value,
+                    imagen: u1,
+                    imagen2: u2 || null,
+                    imagen3: u3 || null
+                };
+
+                productos.unshift(nuevo);
+                actualizarBaseDeDatos();
+                e.target.reset();
+                alert("¡Equipo añadido con éxito! Recuerda descargar la base de datos.");
+            } catch (err) {
+                alert("Error: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined">publish</span> PUBLICAR PRODUCTO';
+            }
+        });
+
+        function actualizarBaseDeDatos() {
+            localStorage.setItem('borgil_db', JSON.stringify(productos));
+            renderizarLista();
+        }
+
+        function renderizarLista() {
+            const list = document.getElementById('lista-productos');
+            const viewer = document.getElementById('json-viewer');
+            const count = document.getElementById('contador');
+
+            count.innerText = `${productos.length} Items`;
+            list.innerHTML = '';
+            
+            productos.forEach((p, index) => {
+                const div = document.createElement('div');
+                div.className = "p-4 flex items-center justify-between hover:bg-gray-50";
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <img src="${p.imagen}" class="w-12 h-12 rounded-lg object-cover bg-gray-100">
+                        <div>
+                            <p class="font-black text-sm">${p.titulo}</p>
+                            <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${p.familia} · ${p.precio_oferta}</p>
+                        </div>
+                    </div>
+                    <button onclick="eliminar(${index})" class="text-red-300 hover:text-red-500 transition-colors p-2">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                `;
+                list.appendChild(div);
+            });
+
+            // Código para el archivo JS
+            const code = `window.PRODUCTOS_BORGIL = ${JSON.stringify(productos, null, 4)};`;
+            viewer.innerText = code;
+        }
+
+        function eliminar(index) {
+            if (confirm("¿Borrar este producto?")) {
+                productos.splice(index, 1);
+                actualizarBaseDeDatos();
+            }
+        }
+
+        function descargarJSON() {
+            const code = `window.PRODUCTOS_BORGIL = ${JSON.stringify(productos, null, 4)};`;
+            const blob = new Blob([code], { type: 'application/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'productos_db.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

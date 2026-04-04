@@ -1,0 +1,14 @@
+# Archivos locales de sistema
+.DS_Store
+Thumbs.db
+*.log
+tmp/
+
+# Carpetas de desarrollo (Opcional: Si no quieres subirlas a la web pública)
+# fotos_originales/
+
+# Archivos de configuración VS Code
+.vscode/
+
+# Ignorar base de datos local (Opcional, pero se sube para que la web funcione)
+# productos_db.js
