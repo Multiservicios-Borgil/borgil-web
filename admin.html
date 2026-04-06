@@ -92,7 +92,7 @@
                     </div>
 
                     <button type="submit" id="submit-btn" class="w-full bg-[#2a2b51] text-white font-black py-4 rounded-2xl hover:bg-black transition-all shadow-xl mt-4 flex items-center justify-center gap-2 active:scale-95">
-                        <span class="material-symbols-outlined">publish</span> PUBLICAR PRODUCTO
+                        <span class="material-symbols-outlined">queue</span> AÑADIR A LA COLA
                     </button>
                 </form>
             </div>
@@ -100,16 +100,38 @@
 
         <!-- COLUMNA DERECHA: BASE DE DATOS Y ENLACES -->
         <div class="lg:col-span-2 space-y-6">
+
+            <!-- Cola de Subida Múltiple -->
+            <div id="seccion-cola" class="bg-yellow-50 border border-yellow-200 rounded-3xl p-6 hidden shadow-sm">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <div>
+                        <h3 class="text-lg font-black text-yellow-800 flex items-center gap-2"><span class="material-symbols-outlined">format_list_bulleted</span> Cola de Subida <span id="cola-count" class="bg-yellow-200 text-yellow-900 px-2 py-0.5 rounded-full text-xs ml-2">0</span></h3>
+                        <p class="text-[10px] text-yellow-700 font-bold uppercase tracking-widest mt-1">Productos listos para subir de golpe a ImgBB</p>
+                    </div>
+                    <button id="btn-procesar-cola" type="button" onclick="procesarCola()" class="w-full md:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl font-black text-xs transition-all shadow-lg flex items-center justify-center gap-2 text-center">
+                        <span class="material-symbols-outlined text-sm">cloud_upload</span> SUBIR TODO AHORA
+                    </button>
+                </div>
+                <div id="lista-cola" class="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+                    <!-- JS rellena esto -->
+                </div>
+            </div>
             
             <div class="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-200">
-                <div class="flex justify-between items-start mb-6">
+                <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
                     <div>
                         <h2 class="text-2xl font-black tracking-tighter">Tu Base de Datos Local</h2>
-                        <p class="text-blue-100/60 font-bold text-sm">Gestiona el archivo productos_db.js directamente</p>
+                        <p class="text-blue-100/60 font-bold text-sm">Añade o abre tus productos existentes aquí</p>
                     </div>
-                    <button onclick="descargarJSON()" class="bg-white text-blue-600 px-6 py-3 rounded-xl font-black text-xs hover:bg-gray-100 transition-all flex items-center gap-2 shadow-lg">
-                        <span class="material-symbols-outlined text-sm">download</span> DESCARGAR ACTUALIZACIÓN
-                    </button>
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <label class="bg-blue-800 text-white px-4 py-3 rounded-xl font-black text-xs hover:bg-blue-900 transition-all cursor-pointer flex items-center gap-2 shadow-inner border border-white/10">
+                            <span class="material-symbols-outlined text-sm">upload_file</span> ABRIR ARCHIVO
+                            <input type="file" id="file-db-upload" accept=".js" class="hidden" onchange="cargarDesdeArchivo(event)">
+                        </label>
+                        <button onclick="descargarJSON()" class="bg-white text-blue-600 px-6 py-3 rounded-xl font-black text-xs hover:bg-gray-100 transition-all flex items-center gap-2 shadow-lg">
+                            <span class="material-symbols-outlined text-sm">download</span> DESCARGAR PARA GITHUB
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="bg-black/20 rounded-2xl p-6 border border-white/10">
@@ -195,41 +217,113 @@
             }
         }
 
-        document.getElementById('product-form').addEventListener('submit', async (e) => {
+        let colaTransaccion = [];
+
+        document.getElementById('product-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> SUBIENDO FOTOS...';
+            
+            const file1 = document.getElementById('foto1').files[0];
+            const file2 = document.getElementById('foto2').files[0];
+            const file3 = document.getElementById('foto3').files[0];
 
-            try {
-                const u1 = await uploadToImgBB(document.getElementById('foto1').files[0]);
-                const u2 = await uploadToImgBB(document.getElementById('foto2').files[0]);
-                const u3 = await uploadToImgBB(document.getElementById('foto3').files[0]);
+            if(!file1) { alert("La foto principal es obligatoria"); return; }
 
-                const nuevo = {
-                    id: Date.now(),
-                    familia: document.getElementById('familia').value,
-                    estado: document.getElementById('estado').value,
-                    titulo: document.getElementById('titulo').value,
-                    descripcion: document.getElementById('descripcion').value,
-                    precio_original: document.getElementById('precio_original').value,
-                    precio_oferta: document.getElementById('precio_oferta').value,
-                    imagen: u1,
-                    imagen2: u2 || null,
-                    imagen3: u3 || null
-                };
-
-                productos.unshift(nuevo);
-                actualizarBaseDeDatos();
-                e.target.reset();
-                alert("¡Equipo añadido con éxito! Recuerda descargar la base de datos.");
-            } catch (err) {
-                alert("Error: " + err.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<span class="material-symbols-outlined">publish</span> PUBLICAR PRODUCTO';
-            }
+            const item = {
+                id_temp: Date.now(),
+                familia: document.getElementById('familia').value,
+                estado: document.getElementById('estado').value,
+                titulo: document.getElementById('titulo').value,
+                descripcion: document.getElementById('descripcion').value,
+                precio_original: document.getElementById('precio_original').value,
+                precio_oferta: document.getElementById('precio_oferta').value,
+                fotos: [file1, file2, file3].filter(f => f) // Only valid files
+            };
+            
+            colaTransaccion.push(item);
+            renderizarCola();
+            e.target.reset(); // clear form
         });
+
+        function renderizarCola() {
+            const container = document.getElementById('seccion-cola');
+            const list = document.getElementById('lista-cola');
+            document.getElementById('cola-count').innerText = colaTransaccion.length;
+            
+            if(colaTransaccion.length > 0) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+            
+            list.innerHTML = '';
+            colaTransaccion.forEach((item, index) => {
+                list.innerHTML += `
+                    <div class="bg-white p-3 rounded-xl border border-yellow-200 flex justify-between items-center shadow-sm">
+                        <div>
+                            <p class="font-bold text-sm text-gray-800">${item.titulo}</p>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wide">${item.fotos.length} foto(s) preparadas</p>
+                        </div>
+                        <button type="button" onclick="eliminarDeCola(${index})" class="text-red-400 hover:text-red-600 bg-red-50 p-2 rounded-lg transition-colors"><span class="material-symbols-outlined text-sm">close</span></button>
+                    </div>
+                `;
+            });
+        }
+
+        function eliminarDeCola(index) {
+            colaTransaccion.splice(index, 1);
+            renderizarCola();
+        }
+
+        async function procesarCola() {
+            if(colaTransaccion.length === 0) return;
+            const btn = document.getElementById('btn-procesar-cola');
+            btn.disabled = true;
+            
+            let errores = 0;
+
+            for(let i = 0; i < colaTransaccion.length; i++) {
+                const item = colaTransaccion[i];
+                btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">refresh</span> <span>SUBIENDO ${i+1} DE ${colaTransaccion.length}...</span>`;
+                
+                try {
+                    let urls = [];
+                    for(let f of item.fotos) {
+                        const url = await uploadToImgBB(f);
+                        urls.push(url);
+                    }
+                    
+                    const nuevo = {
+                        id: Date.now() + i, // prevents duplicate IDs if processed rapidly
+                        familia: item.familia,
+                        estado: item.estado,
+                        titulo: item.titulo,
+                        descripcion: item.descripcion,
+                        precio_original: item.precio_original,
+                        precio_oferta: item.precio_oferta,
+                        imagen: urls[0],
+                        imagen2: urls[1] || null,
+                        imagen3: urls[2] || null
+                    };
+                    productos.unshift(nuevo);
+                } catch(err) {
+                    console.error("Error al subir el producto:", item.titulo, err);
+                    errores++;
+                }
+            }
+
+            actualizarBaseDeDatos();
+            colaTransaccion = [];
+            renderizarCola();
+            
+            btn.disabled = false;
+            btn.innerHTML = `<span class="material-symbols-outlined text-sm">cloud_upload</span> SUBIR TODO AHORA`;
+            
+            if(errores > 0) {
+                alert(`Proceso finalizado, pero hubo ${errores} errores. Revisa tu consola o la red.`);
+            } else {
+                alert("¡Todos los productos subidos con éxito! No olvides 'DESCARGAR PARA GITHUB' el nuevo archivo.");
+            }
+        }
 
         function actualizarBaseDeDatos() {
             localStorage.setItem('borgil_db', JSON.stringify(productos));
@@ -285,6 +379,32 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+
+        // LEER ARCHIVO PREVIO
+        function cargarDesdeArchivo(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    // El archivo empieza con "window.PRODUCTOS_BORGIL = ["
+                    const text = e.target.result;
+                    const jsonStart = text.indexOf('[');
+                    const jsonEnd = text.lastIndexOf(']') + 1;
+                    if (jsonStart === -1 || jsonEnd === 0) throw new Error("Formato inválido");
+                    
+                    const jsonString = text.substring(jsonStart, jsonEnd);
+                    productos = JSON.parse(jsonString);
+                    actualizarBaseDeDatos();
+                    alert("¡Base de datos cargada correctamente! Ahora puedes ver y borrar productos antiguos si lo necesitas.");
+                } catch(error) {
+                    alert("Error al leer el archivo. Asegúrate de seleccionar un archivo productos_db.js válido.");
+                }
+            };
+            reader.readAsText(file);
+            // Limpiamos el input para poder cargar el mismo archivo varias veces si se desea
+            event.target.value = '';
         }
     </script>
 </body>
