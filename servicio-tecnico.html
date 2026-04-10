@@ -49,26 +49,30 @@
 <div id="overlay" onclick="toggleSidebar()" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] hidden lg:hidden"></div>
 
 <!-- Main Content -->
-    <!-- Barra de Contacto Superior (Z-50 superior a todo el main) -->
-    <div class="fixed top-0 left-0 lg:left-72 right-0 bg-[#1a1b2e] text-white z-[50] py-2.5 px-8 flex flex-wrap justify-center lg:justify-between items-center gap-4 border-b border-white/5">
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-sm">location_on</span>
-                <span class="text-[9px] font-black uppercase tracking-widest text-white/70 italic">Illueca (ZGZ)</span>
-            </div>
-            <div class="hidden md:flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary text-sm">mail</span>
-                <span class="text-[9px] font-black uppercase tracking-widest text-white/70">infoborgil@gmail.com</span>
+    <!-- Barra de Contacto Superior (Limpia) -->
+    <div class="fixed top-0 left-0 lg:left-72 right-0 bg-white shadow-md z-[50] py-4 px-8 flex flex-wrap justify-between items-center gap-6 border-b border-gray-100 font-sans">
+        <div class="flex items-center gap-8">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-2xl">mail</span>
+                <span class="text-sm font-bold text-secondary">infoborgil@gmail.com</span>
             </div>
         </div>
-        <div class="flex items-center gap-6">
-            <a href="tel:976822343" class="flex items-center gap-2 hover:text-primary transition-colors">
-                <span class="material-symbols-outlined text-primary text-sm">phone</span>
-                <span class="text-[10px] font-black uppercase tracking-tighter">976 82 23 43</span>
+        <!-- Elemento Central para rellenar espacio -->
+        <div class="hidden xl:flex items-center gap-4 bg-secondary/5 px-6 py-2 rounded-full border border-secondary/10">
+            <span class="material-symbols-outlined text-primary text-xl">verified_user</span>
+            <span class="text-[11px] font-black uppercase tracking-widest text-secondary/60">Servicio Técnico Oficial Multi-marca</span>
+        </div>
+
+        <div class="flex items-center gap-8">
+            <a href="tel:976822343" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-primary transition-colors">
+                    <span class="material-symbols-outlined text-primary text-xl group-hover:text-white">phone</span>
+                </div>
+                <span class="text-lg font-black text-secondary tracking-tighter">976 82 23 43</span>
             </a>
-            <a href="https://wa.me/34623150111" class="flex items-center gap-2 bg-primary/10 px-3 py-1 rounded-full border border-primary/20 hover:bg-primary/20 transition-all">
-                <span class="material-symbols-outlined text-primary text-sm">smartphone</span>
-                <span class="text-[10px] font-black italic text-primary uppercase tracking-tighter">623 150 111</span>
+            <a href="https://wa.me/34623150111" class="flex items-center gap-3 bg-green-50 px-5 py-2.5 rounded-2xl border border-green-100 hover:bg-green-100 transition-all group border-2 border-green-200">
+                <span class="material-symbols-outlined text-green-600 font-black text-2xl">smartphone</span>
+                <span class="text-xl font-black text-green-700 tracking-tighter">623 150 111</span>
             </a>
         </div>
     </div>
@@ -88,7 +92,7 @@
             </div>
             <div class="flex-1 relative">
                 <div class="absolute -inset-10 bg-primary/20 blur-[120px] rounded-full"></div>
-                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=2070&auto=format&fit=crop" class="rounded-[40px] shadow-2xl border-2 border-white/10 w-full aspect-[4/3] object-cover relative z-10" alt="Herramientas profesionales">
+                <img src="tecnico.png" class="rounded-[40px] shadow-2xl border-2 border-white/10 w-full aspect-[4/3] object-cover relative z-10" alt="Técnico oficial Multiservicios Borgil">
             </div>
         </div>
     </section>
@@ -191,7 +195,7 @@
                     <span class="material-symbols-outlined text-primary text-3xl">location_on</span>
                     <div>
                         <p class="font-black text-secondary">Taller y Oficinas</p>
-                        <p class="text-secondary/60 leading-relaxed font-medium">Avda Diagonal V Centenario<br>50250 Illueca (Zaragoza)</p>
+                        <p class="text-secondary/60 leading-relaxed font-medium">Avda Diagonal V Centenario<br>50250 Servicio Nacional</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
@@ -218,7 +222,7 @@
                     <a href="index.html" class="hover:text-primary transition-colors">Inicio</a>
                     <a href="admin.html" class="hover:text-primary transition-colors">Panel</a>
                 </div>
-                <p>Illueca · Aranda · Calatayud</p>
+                <p>Servicio en toda la Región</p>
             </div>
         </div>
     </footer>
