@@ -89,6 +89,8 @@
                         <input type="file" id="foto1" accept="image/*" class="w-full text-xs" required>
                         <input type="file" id="foto2" accept="image/*" class="w-full text-xs">
                         <input type="file" id="foto3" accept="image/*" class="w-full text-xs">
+                        <input type="file" id="foto4" accept="image/*" class="w-full text-xs">
+                        <input type="file" id="foto5" accept="image/*" class="w-full text-xs">
                     </div>
 
                     <button type="submit" id="submit-btn" class="w-full bg-[#2a2b51] text-white font-black py-4 rounded-2xl hover:bg-black transition-all shadow-xl mt-4 flex items-center justify-center gap-2 active:scale-95">
@@ -225,6 +227,8 @@
             const file1 = document.getElementById('foto1').files[0];
             const file2 = document.getElementById('foto2').files[0];
             const file3 = document.getElementById('foto3').files[0];
+            const file4 = document.getElementById('foto4').files[0];
+            const file5 = document.getElementById('foto5').files[0];
 
             if(!file1) { alert("La foto principal es obligatoria"); return; }
 
@@ -236,7 +240,7 @@
                 descripcion: document.getElementById('descripcion').value,
                 precio_original: document.getElementById('precio_original').value,
                 precio_oferta: document.getElementById('precio_oferta').value,
-                fotos: [file1, file2, file3].filter(f => f) // Only valid files
+                fotos: [file1, file2, file3, file4, file5].filter(f => f) // Only valid files
             };
             
             colaTransaccion.push(item);
@@ -302,7 +306,9 @@
                         precio_oferta: item.precio_oferta,
                         imagen: urls[0],
                         imagen2: urls[1] || null,
-                        imagen3: urls[2] || null
+                        imagen3: urls[2] || null,
+                        imagen4: urls[3] || null,
+                        imagen5: urls[4] || null
                     };
                     productos.unshift(nuevo);
                 } catch(err) {

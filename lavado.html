@@ -23,7 +23,11 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .zoom-container { overflow: hidden; position: relative; }
         .zoom-img { transition: transform 0.3s ease-out; }
-        .zoom-container:hover .zoom-img { transform: scale(1.5); cursor: zoom-in; }
+        .zoom-container:hover .zoom-img { transform: scale(1.1); cursor: pointer; }
+        /* Modal Gallery */
+        #gallery-modal { transition: opacity 0.3s ease; }
+        .modal-base { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; justify-content: center; align-items: center; }
+        .modal-active { display: flex; }
     </style>
 </head>
 <body class="bg-surface font-body text-secondary">
@@ -86,6 +90,22 @@
         </div>
     </div>
 
+    <!-- Modal para Galería -->
+    <div id="gallery-modal" class="modal-base" onclick="closeGallery()">
+        <button class="absolute top-8 right-8 text-white text-4xl hover:text-primary transition-colors z-[110]">&times;</button>
+        <button onclick="changePhoto(-1, event)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-[110]">
+            <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button onclick="changePhoto(1, event)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-all z-[110]">
+            <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        
+        <div class="max-w-5xl w-full p-4 flex flex-col items-center">
+            <img id="gallery-img" src="" class="max-h-[85vh] max-w-full object-contain rounded-2xl shadow-2xl animate-fade-in" onclick="event.stopPropagation()">
+            <div id="gallery-dots" class="flex gap-2 mt-6"></div>
+        </div>
+    </div>
+
     <main class="lg:ml-72 pt-32 lg:pt-24 pb-24 px-8 lg:px-16">
     <div class="max-w-7xl mx-auto">
         <header class="mb-16">
@@ -134,20 +154,21 @@
             return;
         }
 
-        contenedor.innerHTML = "";
-        filtrados.forEach(prod => {
+        filtrados.forEach((prod, index) => {
             const fotos = [prod.imagen, prod.imagen2, prod.imagen3, prod.imagen4, prod.imagen5].filter(f => f);
-            const galId = `gal-${prod.id}`;
             
             contenedor.insertAdjacentHTML("beforeend", `
                 <div class="group bg-white rounded-3xl overflow-hidden border border-gray-100 hover:shadow-2xl transition-all duration-500 flex flex-col fade-in">
-                    <div class="aspect-square relative zoom-container overflow-hidden bg-gray-50 flex justify-center items-center">
+                    <div onclick="openGallery(${JSON.stringify(fotos).replace(/"/g, '&quot;')})" class="aspect-square relative zoom-container overflow-hidden bg-gray-50 flex justify-center items-center">
                         <img src="${prod.imagen}" class="w-full h-full object-cover zoom-img">
                         <div class="absolute top-4 left-4 bg-primary text-white px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest z-20">${prod.estado}</div>
+                        ${fotos.length > 1 ? `<div class="absolute bottom-4 right-4 bg-black/50 backdrop-blur-md text-white px-3 py-1 rounded-lg text-[10px] font-black flex items-center gap-1 z-20"><span class="material-symbols-outlined text-xs">filter</span> ${fotos.length} fotos</div>` : ''}
                     </div>
                     <div class="p-8 flex flex-col flex-grow">
-                        <h3 class="font-black text-2xl text-secondary mb-3 group-hover:text-primary transition-colors leading-tight">${prod.titulo}</h3>
-                        <p class="text-secondary/50 text-sm mb-8 line-clamp-2">${prod.descripcion}</p>
+                        <div class="flex-grow cursor-pointer" onclick="openGallery(${JSON.stringify(fotos).replace(/"/g, '&quot;')})">
+                            <h3 class="font-black text-2xl text-secondary mb-3 group-hover:text-primary transition-colors leading-tight">${prod.titulo}</h3>
+                            <p class="text-secondary/50 text-sm mb-8 line-clamp-2">${prod.descripcion}</p>
+                        </div>
                         <div class="mt-auto flex justify-between items-end border-t border-gray-100 pt-6">
                             <div class="flex flex-col">
                                 ${prod.precio_original ? `<span class="text-xs text-secondary/30 font-bold line-through ml-1">${prod.precio_original}</span>` : ''}
@@ -158,6 +179,40 @@
                     </div>
                 </div>
             `);
+        });
+    }
+
+    let currentPhotos = [];
+    let currentPhotoIdx = 0;
+
+    function openGallery(photos) {
+        currentPhotos = photos;
+        currentPhotoIdx = 0;
+        updateGallery();
+        document.getElementById('gallery-modal').classList.add('modal-active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeGallery() {
+        document.getElementById('gallery-modal').classList.remove('modal-active');
+        document.body.style.overflow = 'auto';
+    }
+
+    function changePhoto(dir, event) {
+        if(event) event.stopPropagation();
+        currentPhotoIdx = (currentPhotoIdx + dir + currentPhotos.length) % currentPhotos.length;
+        updateGallery();
+    }
+
+    function updateGallery() {
+        const img = document.getElementById('gallery-img');
+        const dots = document.getElementById('gallery-dots');
+        
+        img.src = currentPhotos[currentPhotoIdx];
+        
+        dots.innerHTML = '';
+        currentPhotos.forEach((_, i) => {
+            dots.innerHTML += `<div class="w-2 h-2 rounded-full transition-all ${i === currentPhotoIdx ? 'bg-primary w-6' : 'bg-white/30'}"></div>`;
         });
     }
 
