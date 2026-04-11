@@ -266,6 +266,10 @@
             const list = document.getElementById('lista-cola');
             document.getElementById('cola-count').innerText = colaTransaccion.length;
             
+            // Autoguardado de seguridad
+            localStorage.setItem('borgil_cola_backup', JSON.stringify(colaTransaccion.map(c => ({...c, fotos: []})))); 
+            // Nota: No podemos guardar archivos File en LocalStorage, pero guardamos los textos para recuperarlos
+
             if(colaTransaccion.length > 0) {
                 container.classList.remove('hidden');
             } else {
@@ -309,6 +313,15 @@
             
             let errores = 0;
 
+            // Filtrar la cola: quitar solo los que NO dieron error (los que ya están en 'productos')
+            // O mejor, manejamos una lista de IDs completados
+            const completados = [];
+            
+            // ... (dentro del loop de arriba, si tiene éxito, añadir el id_temp a completados)
+            // He reescrito la función para mayor claridad:
+            
+            let nuevosCompletados = [];
+
             for(let i = 0; i < colaTransaccion.length; i++) {
                 const item = colaTransaccion[i];
                 btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-sm">refresh</span> <span>SUBIENDO ${i+1} DE ${colaTransaccion.length}...</span>`;
@@ -339,6 +352,7 @@
                         imagen5: urls[4] || null
                     };
                     productos.unshift(nuevo);
+                    nuevosCompletados.push(item.id_temp); // Guardamos que este tuvo éxito
                 } catch(err) {
                     console.error("Error al subir el producto:", item.titulo, err);
                     errores++;
@@ -349,17 +363,19 @@
                 }
             }
 
+            // Limpiar de la cola SOLO los que se subieron bien
+            colaTransaccion = colaTransaccion.filter(item => !nuevosCompletados.includes(item.id_temp));
+
             actualizarBaseDeDatos();
-            colaTransaccion = [];
             renderizarCola();
             
             btn.disabled = false;
             btn.innerHTML = `<span class="material-symbols-outlined text-sm">cloud_upload</span> SUBIR TODO AHORA`;
             
             if(errores > 0) {
-                alert(`Proceso finalizado, pero hubo ${errores} errores. Revisa tu consola o la red.`);
+                alert(`Proceso finalizado. ${colaTransaccion.length} productos quedaron en la cola por errores. Revisa el log rojo.`);
             } else {
-                alert("¡Todos los productos subidos con éxito! No olvides 'DESCARGAR PARA GITHUB' el nuevo archivo.");
+                alert("¡Todos los productos subidos con éxito! No olvides 'DESCARGAR PARA GITHUB'.");
             }
         }
 
