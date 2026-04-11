@@ -1,5 +1,33 @@
 window.PRODUCTOS_BORGIL = [
     {
+        "id": 1775920612718,
+        "familia": "Lavado",
+        "estado": "Nuevo con taras estéticas",
+        "titulo": "DRESSCODE 9500 INVERTER A (02468)",
+        "descripcion": "Bolero DressCode 9800 Inverter A Lavadora de carga frontal de 9 kg de capacidad y 1400 rpm, 16 programas, Motor Inverter Plus, SteamMax, Carga automática y Display táctil XXL. Clase A.\nPuerta arañada y pequeñas pamrcas en el frontal",
+        "precio_original": "369",
+        "precio_oferta": "225",
+        "imagen": "https://i.ibb.co/N6bmf7p0/20260324-172159-removebg-preview.jpg",
+        "imagen2": "https://i.ibb.co/2Yt5BRJd/20260324-172207-removebg-preview.jpg",
+        "imagen3": "https://i.ibb.co/7xH7QJWd/20260324-172213-removebg-preview.jpg",
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
+        "id": 1775920205050,
+        "familia": "Frio",
+        "estado": "Nuevo con taras estéticas",
+        "titulo": "RR220D4BBE – Frigorífico 1 Puerta, Clase E, 165L, Negro",
+        "descripcion": "Frigorífico Una Puerta, Congelador Freeze Zone, 165 L de capacidad, 128 cm alto, Class E, Botellero, Cycle Defrost (Cíclico), Cajón Frutas Y Verduras, Color Negro. Pequeño golpe en la parte trasera. Funciona corectamente.",
+        "precio_original": "325",
+        "precio_oferta": "125",
+        "imagen": "https://i.ibb.co/rGvZmS1J/20260324-182235-removebg-preview.jpg",
+        "imagen2": "https://i.ibb.co/XrMW662P/20260324-182239-removebg-preview.jpg",
+        "imagen3": "https://i.ibb.co/Wpq93fgL/20260324-182255-removebg-preview.jpg",
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
         "id": 1775844510790,
         "familia": "Frio",
         "estado": "Nuevo con taras estéticas",
