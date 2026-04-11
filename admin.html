@@ -120,6 +120,16 @@
                 <div id="lista-cola" class="space-y-2 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
                     <!-- JS rellena esto -->
                 </div>
+
+                <!-- Logs de errores detallados -->
+                <div id="log-errores" class="mt-6 p-4 bg-red-50 border border-red-100 rounded-2xl hidden">
+                    <h4 class="text-xs font-black text-red-600 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">error</span> Errores en la última subida:
+                    </h4>
+                    <div id="log-errores-lista" class="space-y-2 text-[10px] font-bold text-red-400">
+                        <!-- Errores aparecerán aquí -->
+                    </div>
+                </div>
             </div>
             
             <div class="bg-blue-600 rounded-3xl p-8 text-white shadow-xl shadow-blue-200">
@@ -284,7 +294,18 @@
         async function procesarCola() {
             if(colaTransaccion.length === 0) return;
             const btn = document.getElementById('btn-procesar-cola');
+            const logContainer = document.getElementById('log-errores');
+            const logLista = document.getElementById('log-errores-lista');
+            
+            const key = document.getElementById('imgbb-key').value;
+            if(!key) {
+                alert("Primero introduce tu API KEY de ImgBB arriba a la derecha.");
+                return;
+            }
+
             btn.disabled = true;
+            logContainer.classList.add('hidden');
+            logLista.innerHTML = '';
             
             let errores = 0;
 
@@ -294,13 +315,17 @@
                 
                 try {
                     let urls = [];
-                    for(let f of item.fotos) {
-                        const url = await uploadToImgBB(f);
-                        urls.push(url);
+                    for(let fidx = 0; fidx < item.fotos.length; fidx++) {
+                        try {
+                            const url = await uploadToImgBB(item.fotos[fidx]);
+                            urls.push(url);
+                        } catch(photoErr) {
+                            throw new Error(`Fallo en foto ${fidx + 1}: ${photoErr.message}`);
+                        }
                     }
                     
                     const nuevo = {
-                        id: Date.now() + i, // prevents duplicate IDs if processed rapidly
+                        id: Date.now() + i,
                         familia: item.familia,
                         estado: item.estado,
                         titulo: item.titulo,
@@ -317,6 +342,10 @@
                 } catch(err) {
                     console.error("Error al subir el producto:", item.titulo, err);
                     errores++;
+                    logContainer.classList.remove('hidden');
+                    const errorMsg = document.createElement('p');
+                    errorMsg.innerText = `❌ ${item.titulo}: ${err.message}`;
+                    logLista.appendChild(errorMsg);
                 }
             }
 
