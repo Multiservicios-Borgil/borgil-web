@@ -1,5 +1,47 @@
 window.PRODUCTOS_BORGIL = [
     {
+        "id": 1775921655618,
+        "familia": "Lavado",
+        "estado": "Reacondicionado",
+        "titulo": "Bolero DressCode 8500 Inverter A",
+        "descripcion": "Bolero DressCode 8500 Inverter A Lavadora de carga frontal de 8 Kg blanca, 16 programas, 1400 rpm, Motor Inverter Plus, SteamMax, Drum Clean, Allergy Care, Pearl Drum, Delay Start, Stop&Go, display LED y acabados cromados, programa ECO y KidLock. Pequeñas marcas y tubo de desagüe cortado.",
+        "precio_original": "309",
+        "precio_oferta": "190",
+        "imagen": "https://i.ibb.co/d4r1yT42/20260324-185757-removebg-preview.jpg",
+        "imagen2": "https://i.ibb.co/VcdfQzjV/20260324-190528-removebg-preview.jpg",
+        "imagen3": "https://i.ibb.co/TBZ1Q1rf/20260324-190546.jpg",
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
+        "id": 1775921654979,
+        "familia": "Lavado",
+        "estado": "Nuevo con taras estéticas",
+        "titulo": "Bolero DressCode 10500 Inverter Steel A",
+        "descripcion": "Bolero DressCode 10500 Inverter Steel A Lavadora de 10 Kg Steel, 1400 rpm, Motor Inverter Plus, SteamMax, Drum Clean, Allergy Care, Pearl Drum, Delay Start, Stop&Go, display LED y acabados cromados, programa ECO y KidLock. Marcas en la puerta",
+        "precio_original": "375",
+        "precio_oferta": "225",
+        "imagen": "https://i.ibb.co/d4r1yT42/20260324-185757-removebg-preview.jpg",
+        "imagen2": "https://i.ibb.co/VcdfQzjV/20260324-190528-removebg-preview.jpg",
+        "imagen3": "https://i.ibb.co/TBZ1Q1rf/20260324-190546.jpg",
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
+        "id": 1775921653819,
+        "familia": "Lavado",
+        "estado": "Reacondicionado",
+        "titulo": "LG F4WR5009A6M -",
+        "descripcion": " Lavadora Al Direct Drive, 9Kg, 1400rpm, Vapor, 10% Inox grafito , Serie 500. Pequeños arañazos. Funciona perfecta",
+        "precio_original": "465",
+        "precio_oferta": "270",
+        "imagen": "https://i.ibb.co/21y0Pn9q/20260324-180832-removebg-preview.jpg",
+        "imagen2": null,
+        "imagen3": null,
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
         "id": 1775920612718,
         "familia": "Lavado",
         "estado": "Nuevo con taras estéticas",
