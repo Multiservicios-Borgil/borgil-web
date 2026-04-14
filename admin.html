@@ -74,6 +74,10 @@
                     <span class="material-symbols-outlined text-blue-600">add_circle</span> Añadir Equipo
                 </h2>
                 <form id="product-form" class="space-y-4">
+                    <div id="editing-badge" class="hidden bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-2 flex items-center justify-between">
+                        <span>Modo Edición Activo</span>
+                        <button type="button" onclick="cancelarEdicion()" class="hover:bg-white/20 px-2 rounded">Cancelar</button>
+                    </div>
                     <div class="grid grid-cols-2 gap-3">
                         <select id="familia" class="bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:ring-2 focus:ring-blue-500" required>
                             <option value="Lavado">Lavado</option>
@@ -98,17 +102,18 @@
                         <input type="text" id="precio_oferta" placeholder="Precio HOY" class="bg-blue-50 border border-blue-100 text-blue-600 rounded-xl px-4 py-3 text-sm font-black" required>
                     </div>
 
-                    <div class="space-y-2">
+                    <div id="fotos-container" class="space-y-2">
                         <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest block ml-1">Fotos (Subirán a ImgBB)</label>
-                        <input type="file" id="foto1" accept="image/*" class="w-full text-xs" required>
+                        <input type="file" id="foto1" accept="image/*" class="w-full text-xs">
                         <input type="file" id="foto2" accept="image/*" class="w-full text-xs">
                         <input type="file" id="foto3" accept="image/*" class="w-full text-xs">
                         <input type="file" id="foto4" accept="image/*" class="w-full text-xs">
                         <input type="file" id="foto5" accept="image/*" class="w-full text-xs">
+                        <p id="edit-photo-warning" class="hidden text-[9px] text-blue-500 font-bold italic">Deja las fotos vacías para mantener las actuales del producto.</p>
                     </div>
 
                     <button type="submit" id="submit-btn" class="w-full bg-[#2a2b51] text-white font-black py-4 rounded-2xl hover:bg-black transition-all shadow-xl mt-4 flex items-center justify-center gap-2 active:scale-95">
-                        <span class="material-symbols-outlined">queue</span> AÑADIR A LA COLA
+                        <span id="submit-icon" class="material-symbols-outlined">queue</span> <span id="submit-text">AÑADIR A LA COLA</span>
                     </button>
                 </form>
             </div>
@@ -244,33 +249,103 @@
         }
 
         let colaTransaccion = [];
+        let editIndex = null;
 
         document.getElementById('product-form').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            const file1 = document.getElementById('foto1').files[0];
-            const file2 = document.getElementById('foto2').files[0];
-            const file3 = document.getElementById('foto3').files[0];
-            const file4 = document.getElementById('foto4').files[0];
-            const file5 = document.getElementById('foto5').files[0];
+            const files = [
+                document.getElementById('foto1').files[0],
+                document.getElementById('foto2').files[0],
+                document.getElementById('foto3').files[0],
+                document.getElementById('foto4').files[0],
+                document.getElementById('foto5').files[0]
+            ].filter(f => f);
 
-            if(!file1) { alert("La foto principal es obligatoria"); return; }
+            if(editIndex !== null) {
+                // MODO EDICIÓN: Actualizar directamente
+                const p = productos[editIndex];
+                p.familia = document.getElementById('familia').value;
+                p.estado = document.getElementById('estado').value;
+                p.titulo = document.getElementById('titulo').value;
+                p.descripcion = document.getElementById('descripcion').value;
+                p.precio_original = document.getElementById('precio_original').value;
+                p.precio_oferta = document.getElementById('precio_oferta').value;
 
-            const item = {
-                id_temp: Date.now(),
-                familia: document.getElementById('familia').value,
-                estado: document.getElementById('estado').value,
-                titulo: document.getElementById('titulo').value,
-                descripcion: document.getElementById('descripcion').value,
-                precio_original: document.getElementById('precio_original').value,
-                precio_oferta: document.getElementById('precio_oferta').value,
-                fotos: [file1, file2, file3, file4, file5].filter(f => f) // Only valid files
-            };
-            
-            colaTransaccion.push(item);
-            renderizarCola();
-            e.target.reset(); // clear form
+                if(files.length > 0) {
+                    // Si ha puesto fotos nuevas en edición, va a la cola
+                    const item = {
+                        id_temp: Date.now(),
+                        is_update: true,
+                        original_id: p.id,
+                        familia: p.familia,
+                        estado: p.estado,
+                        titulo: p.titulo,
+                        descripcion: p.descripcion,
+                        precio_original: p.precio_original,
+                        precio_oferta: p.precio_oferta,
+                        fotos: files
+                    };
+                    colaTransaccion.push(item);
+                    // Borramos el viejo porque se sustituirá por el nuevo con fotos
+                    productos.splice(editIndex, 1);
+                    alert("Producto enviado a la cola para subir las nuevas fotos.");
+                } else {
+                    // Solo texto, actualizamos al momento
+                    actualizarBaseDeDatos();
+                    alert("¡Cambios de texto guardados!");
+                }
+                cancelarEdicion();
+            } else {
+                // MODO NUEVO
+                if(files.length === 0) { alert("La foto principal es obligatoria para productos nuevos"); return; }
+                
+                const item = {
+                    id_temp: Date.now(),
+                    familia: document.getElementById('familia').value,
+                    estado: document.getElementById('estado').value,
+                    titulo: document.getElementById('titulo').value,
+                    descripcion: document.getElementById('descripcion').value,
+                    precio_original: document.getElementById('precio_original').value,
+                    precio_oferta: document.getElementById('precio_oferta').value,
+                    fotos: files
+                };
+                
+                colaTransaccion.push(item);
+                renderizarCola();
+                e.target.reset();
+            }
         });
+
+        function cargarParaEditar(index) {
+            editIndex = index;
+            const p = productos[index];
+            
+            document.getElementById('familia').value = p.familia;
+            document.getElementById('estado').value = p.estado;
+            document.getElementById('titulo').value = p.titulo;
+            document.getElementById('descripcion').value = p.descripcion;
+            document.getElementById('precio_original').value = p.precio_original;
+            document.getElementById('precio_oferta').value = p.precio_oferta;
+
+            document.getElementById('editing-badge').classList.remove('hidden');
+            document.getElementById('edit-photo-warning').classList.remove('hidden');
+            document.getElementById('submit-text').innerText = "GUARDAR CAMBIOS";
+            document.getElementById('submit-icon').innerText = "save";
+            document.getElementById('product-form').classList.add('ring-2', 'ring-blue-500', 'p-4', 'rounded-3xl');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelarEdicion() {
+            editIndex = null;
+            document.getElementById('product-form').reset();
+            document.getElementById('editing-badge').classList.add('hidden');
+            document.getElementById('edit-photo-warning').classList.add('hidden');
+            document.getElementById('submit-text').innerText = "AÑADIR A LA COLA";
+            document.getElementById('submit-icon').innerText = "queue";
+            document.getElementById('product-form').classList.remove('ring-2', 'ring-blue-500', 'p-4', 'rounded-3xl');
+        }
 
         function renderizarCola() {
             const container = document.getElementById('seccion-cola');
@@ -405,18 +480,23 @@
             
             productos.forEach((p, index) => {
                 const div = document.createElement('div');
-                div.className = "p-4 flex items-center justify-between hover:bg-gray-50";
+                div.className = "p-4 flex items-center justify-between hover:bg-gray-50 transition-colors";
                 div.innerHTML = `
                     <div class="flex items-center gap-4">
-                        <img src="${p.imagen}" class="w-12 h-12 rounded-lg object-cover bg-gray-100">
-                        <div>
-                            <p class="font-black text-sm">${p.titulo}</p>
+                        <img src="${p.imagen}" class="w-12 h-12 rounded-lg object-cover bg-gray-100 shadow-sm">
+                        <div class="max-w-[150px] md:max-w-xs overflow-hidden">
+                            <p class="font-black text-sm text-gray-800 line-clamp-1">${p.titulo}</p>
                             <p class="text-[9px] font-bold text-gray-400 uppercase tracking-widest">${p.familia} · ${p.precio_oferta}</p>
                         </div>
                     </div>
-                    <button onclick="eliminar(${index})" class="text-red-300 hover:text-red-500 transition-colors p-2">
-                        <span class="material-symbols-outlined">delete</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="cargarParaEditar(${index})" class="flex items-center gap-1 bg-blue-50 text-blue-600 px-3 py-1.5 rounded-lg font-black text-[10px] hover:bg-blue-600 hover:text-white transition-all">
+                            <span class="material-symbols-outlined text-xs">edit</span> EDITAR
+                        </button>
+                        <button onclick="eliminar(${index})" class="text-red-300 hover:text-red-500 transition-colors p-2">
+                            <span class="material-symbols-outlined">delete</span>
+                        </button>
+                    </div>
                 `;
                 list.appendChild(div);
             });
