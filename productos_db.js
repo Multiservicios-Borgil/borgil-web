@@ -1,5 +1,19 @@
 window.PRODUCTOS_BORGIL = [
     {
+        "id": 1776506074926,
+        "familia": "Lavado",
+        "estado": "Segunda mano",
+        "titulo": "LG - F4WR5009A6M",
+        "descripcion": "Lavadora inteligente AI Direct Drive, Vapor, 9kg , 1400rpm Un 10% más eficiente que A, Serie 500 - Segunda mano - Buen estado - Arañazos y pequeñas marcas de uso \n",
+        "precio_original": "499",
+        "precio_oferta": "299",
+        "imagen": "https://i.ibb.co/YFRqTBzV/20260324-180832.jpg",
+        "imagen2": "https://i.ibb.co/DPZ75qnC/20260324-180850.jpg",
+        "imagen3": "https://i.ibb.co/Z1MWW5f4/20260324-180858.jpg",
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
         "id": 1776252657683,
         "familia": "Lavado",
         "estado": "Nuevo con taras estéticas",
