@@ -1,0 +1,140 @@
+<!-- Archivo: multiservicios-borgil/generador-posts.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador Social Media v4.1 - Multiservicios Borgil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root { --primary: #003087; --accent: #e31b23; --dark: #121212; --white: #ffffff; --secondary: #00aaff; }
+        body { font-family: 'Outfit', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .admin-panel { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid var(--primary); }
+        h1 { margin: 0; color: var(--primary); font-weight: 800; font-size: 28px; }
+        .update-tag { font-size: 10px; color: #999; margin-bottom: 20px; }
+        .grid-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin: 20px 0; max-height: 220px; overflow-y: auto; padding: 10px; border: 1px solid #eee; border-radius: 10px; }
+        .product-card-select { background: #fff; border-radius: 8px; padding: 8px; cursor: pointer; border: 2px solid #f0f0f0; text-align: center; font-size: 11px; }
+        .product-card-select.selected { border-color: var(--primary); background: #f0f5ff; }
+        .product-card-select img { width: 100%; height: 50px; object-fit: contain; }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .btn { padding: 18px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 14px; transition: 0.2s; }
+        .btn-main { background: var(--primary); color: white; }
+        .btn-sec { background: var(--secondary); color: white; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .copy-box { background: #f8f9fa; padding: 25px; border-radius: 12px; margin-top: 25px; border-left: 6px solid var(--primary); display: none; white-space: pre-line; font-size: 16px; line-height: 1.5; color: #333; }
+        #render-area { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        .image-container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); text-align: center; }
+        .download-trigger { background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-bottom: 20px; }
+        .card { width: 1080px; height: 1080px; background: white; position: relative; overflow: hidden; text-align: left; }
+        .header { position: absolute; top: 0; left: 0; width: 100%; padding: 60px; display: flex; justify-content: space-between; z-index: 10; }
+        .card-logo { height: 80px; }
+        .badge { background: var(--accent); color: white; padding: 15px 45px; border-radius: 50px; font-weight: 800; font-size: 35px; }
+        .main-img-box { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle, #fff 0%, #f9f9f9 100%); }
+        .main-img { max-width: 850px; max-height: 600px; object-fit: contain; }
+        .info-panel { position: absolute; bottom: 0; width: 100%; background: var(--primary); padding: 70px 80px 100px 80px; color: white; box-sizing: border-box; }
+        .card-price { font-size: 130px; font-weight: 800; line-height: 1; margin-top: 10px; }
+        .card-footer { position: absolute; bottom: 35px; width: 100%; text-align: center; font-size: 28px; font-weight: 600; color: white; }
+        .service-layout { background: linear-gradient(135deg, var(--primary) 0%, #00153d 100%); color: white; text-align: center; }
+        .service-white-bar { position: absolute; bottom: 0; width: 100%; background: white; padding: 60px; color: var(--primary); box-sizing: border-box; }
+        .preview-wrapper { transform: scale(0.4); transform-origin: top center; margin-bottom: -630px; width: 1080px; height: 1080px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="admin-panel">
+        <h1>🛠️ Publicador Multiservicios Borgil</h1>
+        <div class="update-tag">Ultima actualización: v4.1 - Carga local activada</div>
+        <p>Selecciona productos y pulsa generar. Todo configurado para www.multiserviciosborgil.com</p>
+        <div id="selector" class="grid-selector"></div>
+        <div class="btn-group">
+            <button class="btn btn-main" onclick="genProducts()">📦 Generar Fotos Producto</button>
+            <button class="btn btn-sec" onclick="genService()">👨‍🔧 Generar Anuncio Servicio</button>
+        </div>
+        <div id="copy" class="copy-box"></div>
+    </div>
+    <div id="render-area"></div>
+</div>
+<script src="productos_db.js"></script>
+<script>
+    const db = window.PRODUCTOS_BORGIL || [];
+    const sel = new Set();
+    const cont = document.getElementById('selector');
+    const area = document.getElementById('render-area');
+    const copy = document.getElementById('copy');
+
+    db.forEach(p => {
+        const d = document.createElement('div');
+        d.className = 'product-card-select';
+        const fileName = p.imagen.split('/').pop();
+        const localImg = `./fotos_listas_web/${fileName}`;
+        d.innerHTML = `<img src="${localImg}" onerror="this.src='${p.imagen}'"><span>${p.titulo.substring(0,30)}</span>`;
+        d.onclick = () => { d.classList.toggle('selected'); sel.has(p.id) ? sel.delete(p.id) : sel.add(p.id); };
+        cont.appendChild(d);
+    });
+
+    async function saveImg(id, name) {
+        const btn = document.querySelector(`[onclick="saveImg('${id}', '${name}')"]`);
+        btn.innerText = "⏳ PROCESANDO...";
+        try {
+            const canvas = await html2canvas(document.getElementById(id), { useCORS: true, scale: 2 });
+            const link = document.createElement('a'); link.download = name; link.href = canvas.toDataURL("image/png"); link.click();
+            btn.innerText = "✅ DESCARGADO";
+        } catch(e) { btn.innerText = "❌ ERROR: USA CAPTURA"; btn.style.background = "#dc3545"; }
+    }
+
+    function genProducts() {
+        area.innerHTML = ''; copy.style.display = 'block';
+        const list = db.filter(p => sel.has(p.id));
+        if(list.length === 0) return alert("Selecciona productos primero");
+        let txt = "✨ ¡CALATAYUD! Ofertas destacadas en Multiservicios Borgil ✨\n\nNos han llegado productos increíbles a precios imbatibles:\n\n";
+        list.forEach((p, i) => {
+            txt += `${i+1}️⃣ ${p.titulo} - Solo ${p.precio_oferta}€\n`;
+            const fileName = p.imagen.split('/').pop();
+            const localImg = `./fotos_listas_web/${fileName}`;
+            const cid = `c-p-${i}`;
+            const div = document.createElement('div');
+            div.className = 'image-container';
+            div.innerHTML = `
+                <button class="download-trigger" onclick="saveImg('${cid}', 'producto-${i}.png')">💾 GUARDAR IMAGEN</button>
+                <div class="preview-wrapper">
+                    <div class="card" id="${cid}">
+                        <div class="header"><img src="logo-horizontal.png" class="card-logo"><div class="badge">${p.estado.toUpperCase()}</div></div>
+                        <div class="main-img-box"><img src="${localImg}" class="main-img" onerror="this.src='${p.imagen}'"></div>
+                        <div class="info-panel"><div style="font-size:55px; font-weight:800; margin-bottom:15px">${p.titulo.toUpperCase()}</div><div class="card-price">${p.precio_oferta}€ <span style="font-size:55px; opacity:0.6; text-decoration:line-through">${p.precio_original}€</span></div></div>
+                        <div class="card-footer">📍 Calatayud y Comarca | 📞 976 822 343 - 623 150 111</div>
+                    </div>
+                </div>`;
+            area.appendChild(div);
+        });
+        copy.innerText = txt + "\n📍 Visítanos en Illueca\n📞 976 822 343 - 623 150 111\n🌐 www.multiserviciosborgil.com";
+    }
+
+    function genService() {
+        area.innerHTML = ''; copy.style.display = 'block';
+        const cid = 'c-s';
+        const div = document.createElement('div');
+        div.className = 'image-container';
+        div.innerHTML = `
+            <button class="download-trigger" onclick="saveImg('${cid}', 'anuncio-servicio.png')">💾 GUARDAR ANUNCIO</button>
+            <div class="preview-wrapper">
+                <div class="card service-layout" id="${cid}">
+                    <div style="padding:50px; text-align:left"><img src="logo-horizontal.png" style="height:70px; filter:brightness(0) invert(1)"></div>
+                    <h2 style="font-size:100px; font-weight:800; margin:180px 0 10px 0">SERVICIO TÉCNICO</h2>
+                    <div style="font-size:55px; color:#00aaff; margin-bottom:60px">CALATAYUD Y COMARCA</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; padding:0 100px">
+                        <div style="background:rgba(255,255,255,0.1); padding:35px; border-radius:20px; font-size:42px; font-weight:700">🧺 LAVADORAS</div><div style="background:rgba(255,255,255,0.1); padding:35px; border-radius:20px; font-size:42px; font-weight:700">❄️ FRIGORÍFICOS</div><div style="background:rgba(255,255,255,0.1); padding:35px; border-radius:20px; font-size:42px; font-weight:700">🔥 HORNOS</div><div style="background:rgba(255,255,255,0.1); padding:35px; border-radius:20px; font-size:42px; font-weight:700">🍽️ LAVAPLATOS</div>
+                    </div>
+                    <div class="service-white-bar">
+                        <div style="font-size:85px; font-weight:800; margin-bottom:10px">976 822 343 - 623 150 111</div>
+                        <div style="font-size:40px; color:#555">www.multiserviciosborgil.com</div>
+                    </div>
+                </div>
+            </div>`;
+        area.appendChild(div);
+        copy.innerText = "🛠️ ¿Necesitas reparar un electrodoméstico? 🛠️\n\nEn Multiservicios Borgil damos servicio profesional en Calatayud y comarca. Somos rápidos, de confianza y especialistas en todas las marcas (Lavadoras, Frigoríficos, Hornos, Lavavajillas...).\n\n✅ Precios económicos\n✅ Garantía en reparaciones\n✅ Trato cercano y profesional\n\n📞 976 822 343 / 623 150 111\n🌐 Visítanos: www.multiserviciosborgil.com";
+    }
+</script>
+</body>
+</html>
