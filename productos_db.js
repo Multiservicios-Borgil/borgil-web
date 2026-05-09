@@ -1,5 +1,61 @@
 window.PRODUCTOS_BORGIL = [
     {
+        "id": 1778325623885,
+        "familia": "Frio",
+        "estado": "Nuevo con taras estéticas",
+        "titulo": "Vinoteca Cecotec 34030",
+        "descripcion": "80 L, Enfriamiento por compresor, Temperatura regulable de 5 a 18ÂºC, Control tÃ¡ctil, Display, LED interior. - Grado B",
+        "precio_original": "239",
+        "precio_oferta": "150",
+        "imagen": "https://i.ibb.co/MkQffRXz/20260508-165020.jpg",
+        "imagen2": "https://i.ibb.co/SXFGWkJJ/20260508-164044.jpg",
+        "imagen3": "https://i.ibb.co/LzMKsxt1/20260508-164050.jpg",
+        "imagen4": "https://i.ibb.co/r2QHJFJr/20260508-164150.jpg",
+        "imagen5": null
+    },
+    {
+        "id": 1778324769259,
+        "familia": "Frio",
+        "estado": "Nuevo con taras estéticas",
+        "titulo": "FRIGORIFICO COMBI HISENSE Hisense RB440N4ACA ",
+        "descripcion": "Combi Hisense 201CM X 59 X 58 Eficiente Clase Energetica A, Capacidad 336 L, Multi-air Flow, Micro Vents Cooling, Congelamiento RÃ¡pido, Total No Frost, - NUEVO Con taras esteticas , Golpes frontal y laterales, GRADO C - ",
+        "precio_original": "599",
+        "precio_oferta": "199",
+        "imagen": "https://i.ibb.co/tpzdfmsN/20260508-162440.jpg",
+        "imagen2": "https://i.ibb.co/Hf824j9X/20260508-162606.jpg",
+        "imagen3": "https://i.ibb.co/ZpWs5d54/20260508-162619.jpg",
+        "imagen4": "https://i.ibb.co/7dVjRgS8/20260508-162621.jpg",
+        "imagen5": "https://i.ibb.co/Nnd2ZWbd/20260508-162624.jpg"
+    },
+    {
+        "id": 1778324764420,
+        "familia": "Lavado",
+        "estado": "Segunda mano",
+        "titulo": "LAVADORA LG F4WR5009A6M ",
+        "descripcion": "LAVADORA LG 9KG F4WR5009A6M - SEGUNDA MANO",
+        "precio_original": "479",
+        "precio_oferta": "200",
+        "imagen": "https://i.ibb.co/cSnhGBHz/VENDIDA.jpg",
+        "imagen2": null,
+        "imagen3": null,
+        "imagen4": null,
+        "imagen5": null
+    },
+    {
+        "id": 1778323549611,
+        "familia": "Frio",
+        "estado": "Nuevo con taras estéticas",
+        "titulo": "FRIGORIFICO CECOTEC Bolero CoolMarket Combi 250 White",
+        "descripcion": " Altura 181 cm y 55 cm de Ancho, Bajo Consumo, Sistema Multi Air Flow, Total No frost -  NUEVO A ESTRENAR Con taras esteticas GRADO B - pequeño golpe en frontal, golpes laterales - Necesidad de calzarlo. -30% DESCUENTO",
+        "precio_original": "349",
+        "precio_oferta": "240",
+        "imagen": "https://i.ibb.co/dJgB6YmJ/20260508-190641.jpg",
+        "imagen2": "https://i.ibb.co/Z6VPb6XC/20260508-190645.jpg",
+        "imagen3": "https://i.ibb.co/8Lj8NKDh/20260508-190648.jpg",
+        "imagen4": "https://i.ibb.co/KjSsfsyh/20260508-190652.jpg",
+        "imagen5": null
+    },
+    {
         "id": 1777046947832,
         "familia": "Lavavajillas",
         "estado": "Nuevo con taras estéticas",
@@ -82,20 +138,6 @@ window.PRODUCTOS_BORGIL = [
         "imagen3": "https://i.ibb.co/Mk8jH8HS/20260415-185201.jpg",
         "imagen4": "https://i.ibb.co/ks8CRb06/20260415-185203.jpg",
         "imagen5": "https://i.ibb.co/KjnQK3s3/20260415-185151.jpg"
-    },
-    {
-        "id": 1776506074926,
-        "familia": "Lavado",
-        "estado": "Segunda mano",
-        "titulo": "LG - F4WR5009A6M",
-        "descripcion": "Lavadora inteligente AI Direct Drive, Vapor, 9kg , 1400rpm Un 10% más eficiente que A, Serie 500 - Segunda mano - Buen estado - Arañazos y pequeñas marcas de uso \n",
-        "precio_original": "499",
-        "precio_oferta": "299",
-        "imagen": "https://i.ibb.co/YFRqTBzV/20260324-180832.jpg",
-        "imagen2": "https://i.ibb.co/DPZ75qnC/20260324-180850.jpg",
-        "imagen3": "https://i.ibb.co/Z1MWW5f4/20260324-180858.jpg",
-        "imagen4": null,
-        "imagen5": null
     },
     {
         "id": 1776252657683,
@@ -276,20 +318,6 @@ window.PRODUCTOS_BORGIL = [
         "imagen": "https://i.ibb.co/N6bmf7p0/20260324-172159-removebg-preview.jpg",
         "imagen2": "https://i.ibb.co/2Yt5BRJd/20260324-172207-removebg-preview.jpg",
         "imagen3": "https://i.ibb.co/7xH7QJWd/20260324-172213-removebg-preview.jpg",
-        "imagen4": null,
-        "imagen5": null
-    },
-    {
-        "id": 1775920205050,
-        "familia": "Frio",
-        "estado": "Nuevo con taras estéticas",
-        "titulo": "RR220D4BBE – Frigorífico 1 Puerta, Clase E, 165L, Negro",
-        "descripcion": "Frigorífico Una Puerta, Congelador Freeze Zone, 165 L de capacidad, 128 cm alto, Class E, Botellero, Cycle Defrost (Cíclico), Cajón Frutas Y Verduras, Color Negro. Pequeño golpe en la parte trasera. Funciona corectamente.",
-        "precio_original": "325",
-        "precio_oferta": "125",
-        "imagen": "https://i.ibb.co/rGvZmS1J/20260324-182235-removebg-preview.jpg",
-        "imagen2": "https://i.ibb.co/XrMW662P/20260324-182239-removebg-preview.jpg",
-        "imagen3": "https://i.ibb.co/Wpq93fgL/20260324-182255-removebg-preview.jpg",
         "imagen4": null,
         "imagen5": null
     },
